@@ -1,0 +1,5 @@
+C:\workspace\_home\online-store\AspNetCore.Api\Identity\bin\Debug\netcoreapp2.1\Identity.deps.json
+C:\workspace\_home\online-store\AspNetCore.Api\Identity\bin\Debug\netcoreapp2.1\Identity.dll
+C:\workspace\_home\online-store\AspNetCore.Api\Identity\obj\Debug\netcoreapp2.1\Identity.csproj.CoreCompileInputs.cache
+C:\workspace\_home\online-store\AspNetCore.Api\Identity\obj\Debug\netcoreapp2.1\Identity.AssemblyInfoInputs.cache
+C:\workspace\_home\online-store\AspNetCore.Api\Identity\obj\Debug\netcoreapp2.1\Identity.AssemblyInfo.cs

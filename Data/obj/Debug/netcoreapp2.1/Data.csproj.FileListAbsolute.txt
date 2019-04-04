@@ -1,0 +1,12 @@
+C:\workspace\_home\online-store\AspNetCore.Api\Data\obj\Debug\netcoreapp2.1\Data.csprojAssemblyReference.cache
+C:\workspace\_home\online-store\AspNetCore.Api\Data\obj\Debug\netcoreapp2.1\Data.csproj.CoreCompileInputs.cache
+C:\workspace\_home\online-store\AspNetCore.Api\Data\obj\Debug\netcoreapp2.1\Data.AssemblyInfoInputs.cache
+C:\workspace\_home\online-store\AspNetCore.Api\Data\obj\Debug\netcoreapp2.1\Data.AssemblyInfo.cs
+C:\workspace\_home\online-store\AspNetCore.Api\Data\bin\Debug\netcoreapp2.1\Data.deps.json
+C:\workspace\_home\online-store\AspNetCore.Api\Data\bin\Debug\netcoreapp2.1\Data.dll
+C:\workspace\_home\online-store\AspNetCore.Api\Data\bin\Debug\netcoreapp2.1\Base.dll
+C:\workspace\_home\online-store\AspNetCore.Api\Data\bin\Debug\netcoreapp2.1\Base.pdb
+C:\workspace\_home\online-store\AspNetCore.Api\Data\obj\Debug\netcoreapp2.1\Data.csproj.CopyComplete
+C:\workspace\_home\online-store\AspNetCore.Api\Data\bin\Debug\netcoreapp2.1\Data.pdb
+C:\workspace\_home\online-store\AspNetCore.Api\Data\obj\Debug\netcoreapp2.1\Data.dll
+C:\workspace\_home\online-store\AspNetCore.Api\Data\obj\Debug\netcoreapp2.1\Data.pdb
