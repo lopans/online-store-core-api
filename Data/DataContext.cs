@@ -3,6 +3,7 @@ using Base.DAL;
 using Base.Identity;
 using Data.Entities;
 using Data.Entities.Store;
+using Base.Identity.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

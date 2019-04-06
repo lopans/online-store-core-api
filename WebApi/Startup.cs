@@ -1,6 +1,6 @@
 ﻿using Base;
 using Base.DAL;
-using Base.Identity;
+using Base.Identity.Entities;
 using Base.Identity.IndetityServer;
 using Base.Services;
 using Data;
