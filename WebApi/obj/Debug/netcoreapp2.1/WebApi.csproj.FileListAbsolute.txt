@@ -12,3 +12,5 @@ C:\workspace\_home\online-store\AspNetCore.Api\WebApi\obj\Debug\netcoreapp2.1\We
 C:\workspace\_home\online-store\AspNetCore.Api\WebApi\obj\Debug\netcoreapp2.1\WebApi.RazorTargetAssemblyInfo.cache
 C:\workspace\_home\online-store\AspNetCore.Api\WebApi\obj\Debug\netcoreapp2.1\WebApi.dll
 C:\workspace\_home\online-store\AspNetCore.Api\WebApi\obj\Debug\netcoreapp2.1\WebApi.pdb
+C:\workspace\Projects_local\Online-store-nerCore\WebApi\obj\Debug\netcoreapp2.1\WebApi.dll
+C:\workspace\Projects_local\Online-store-nerCore\WebApi\obj\Debug\netcoreapp2.1\WebApi.pdb

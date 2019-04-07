@@ -2,14 +2,10 @@
 using Data;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
-    [EnableCors()]
+    [EnableCors("any")]
     public class CoreControllerBase: ControllerBase
     {
         public CoreControllerBase(DataContext context)

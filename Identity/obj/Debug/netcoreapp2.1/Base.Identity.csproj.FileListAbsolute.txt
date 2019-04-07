@@ -7,3 +7,12 @@ C:\workspace\_home\online-store\AspNetCore.Api\Identity\obj\Debug\netcoreapp2.1\
 C:\workspace\_home\online-store\AspNetCore.Api\Identity\obj\Debug\netcoreapp2.1\Base.Identity.AssemblyInfo.cs
 C:\workspace\_home\online-store\AspNetCore.Api\Identity\obj\Debug\netcoreapp2.1\Base.Identity.dll
 C:\workspace\_home\online-store\AspNetCore.Api\Identity\obj\Debug\netcoreapp2.1\Base.Identity.pdb
+C:\workspace\Projects_local\Online-store-nerCore\Identity\bin\Debug\netcoreapp2.1\Base.Identity.deps.json
+C:\workspace\Projects_local\Online-store-nerCore\Identity\bin\Debug\netcoreapp2.1\Base.Identity.dll
+C:\workspace\Projects_local\Online-store-nerCore\Identity\bin\Debug\netcoreapp2.1\Base.Identity.pdb
+C:\workspace\Projects_local\Online-store-nerCore\Identity\obj\Debug\netcoreapp2.1\Base.Identity.csprojAssemblyReference.cache
+C:\workspace\Projects_local\Online-store-nerCore\Identity\obj\Debug\netcoreapp2.1\Base.Identity.csproj.CoreCompileInputs.cache
+C:\workspace\Projects_local\Online-store-nerCore\Identity\obj\Debug\netcoreapp2.1\Base.Identity.AssemblyInfoInputs.cache
+C:\workspace\Projects_local\Online-store-nerCore\Identity\obj\Debug\netcoreapp2.1\Base.Identity.AssemblyInfo.cs
+C:\workspace\Projects_local\Online-store-nerCore\Identity\obj\Debug\netcoreapp2.1\Base.Identity.dll
+C:\workspace\Projects_local\Online-store-nerCore\Identity\obj\Debug\netcoreapp2.1\Base.Identity.pdb

@@ -8,6 +8,7 @@ using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,9 +18,11 @@ namespace WebApi
 {
     public class Startup
     {
+        private readonly Initializer dataInitializer;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            dataInitializer = new Initializer();
         }
 
         public IConfiguration Configuration { get; }
@@ -40,13 +43,34 @@ namespace WebApi
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<DataContext>();
 
+            services.Configure<IdentityOptions>(opt => {
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
             services.AddMvcCore()
+                .AddCors(opts => opts.AddPolicy("any", opt => opt
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    //.AllowCredentials()
+                    .WithHeaders("*")
+                    .AllowAnyOrigin()))
                 .AddAuthorization()
                 .AddJsonFormatters();
+            services.AddAuthentication("Bearer")
+              .AddCookie("dummy")
+              .AddJwtBearer("Bearer", options =>
+              {
+                  options.Authority = "http://localhost:8200";
+                  options.RequireHttpsMetadata = false;
 
+                  options.Audience = "api1";
+              });
             var builder = services.AddIdentityServer(options =>
             {
+                options.Authentication.CookieAuthenticationScheme = "dummy";
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
@@ -60,15 +84,7 @@ namespace WebApi
                 .AddAspNetIdentity<User>();
 
             builder.AddDeveloperSigningCredential();
-
-            services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", options =>
-                {
-                    options.Authority = "http://localhost:8200";
-                    options.RequireHttpsMetadata = false;
-
-                    options.Audience = "api1";
-                });
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,11 +98,13 @@ namespace WebApi
             {
                 app.UseHsts();
             }
-
+            
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseMvc();
+
+            dataInitializer.Seed(app).GetAwaiter().GetResult();
         }
     }
 }

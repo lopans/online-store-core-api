@@ -1,8 +1,6 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Base.Identity.IndetityServer
 {
@@ -33,6 +31,7 @@ namespace Base.Identity.IndetityServer
                 {
                     ClientId = "client",
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowOfflineAccess = true,
                     AllowedScopes =    {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
