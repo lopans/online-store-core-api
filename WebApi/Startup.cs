@@ -4,6 +4,7 @@ using Base.Identity.Entities;
 using Base.Identity.IndetityServer;
 using Base.Services;
 using Data;
+using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
@@ -54,23 +55,25 @@ namespace WebApi
                 .AddCors(opts => opts.AddPolicy("any", opt => opt
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
-                    //.AllowCredentials()
+                    .AllowCredentials()
                     .WithHeaders("*")
                     .AllowAnyOrigin()))
                 .AddAuthorization()
                 .AddJsonFormatters();
-            services.AddAuthentication("Bearer")
-              .AddCookie("dummy")
-              .AddJwtBearer("Bearer", options =>
-              {
-                  options.Authority = "http://localhost:8200";
-                  options.RequireHttpsMetadata = false;
+            services.AddAuthentication(o =>
+            {
+                o.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                o.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+            }).AddIdentityServerAuthentication(o =>
+            {
+                o.ApiName = "api1";
+                o.Authority = "http://localhost:8200";
+                o.RequireHttpsMetadata = false;
+            });
 
-                  options.Audience = "api1";
-              });
             var builder = services.AddIdentityServer(options =>
             {
-                options.Authentication.CookieAuthenticationScheme = "dummy";
+                options.Authentication.CookieAuthenticationScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;

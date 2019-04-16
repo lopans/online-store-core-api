@@ -1,6 +1,7 @@
 ﻿using Base.Identity.Entities;
 using Base.Utils;
 using Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -37,6 +38,30 @@ namespace WebApi.Controllers
             if(res.Succeeded)
                 return Ok("registered successfully");
             throw new Exception(res.Errors.First().Description);
+        }
+
+        [HttpGet]
+        //[Authorize]
+        [Route("getUserInfo")]
+        public async Task<ActionResult> GetUserInfo()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            return Ok(new
+            {
+                user.UserName
+            });
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("authed")]
+        public async Task<ActionResult> Authorized()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            return Ok(new
+            {
+                user.UserName
+            });
         }
     }
 }
