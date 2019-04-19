@@ -1,6 +1,9 @@
 ﻿using Base.Identity.Entities;
+using Base.Identity.Entities.Static;
 using Base.Utils;
 using Data;
+using IdentityServer4;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,27 +44,26 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [Route("getUserInfo")]
         public async Task<ActionResult> GetUserInfo()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            var roles = await _userManager.GetRolesAsync(user);
             return Ok(new
             {
-                user.UserName
+                userName = user.UserName,
+                userRoles = roles.Select(x => Roles.RolePrefix + x)
             });
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        [Route("authed")]
-        public async Task<ActionResult> Authorized()
+        [Route("logOut")]
+        public async Task<ActionResult> LogOut()
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            return Ok(new
-            {
-                user.UserName
-            });
+            await HttpContext.SignOutAsync(IdentityServerConstants.DefaultCookieAuthenticationScheme);
+            return Ok();
         }
     }
 }

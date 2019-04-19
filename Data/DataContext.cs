@@ -35,9 +35,10 @@ namespace Data
             modelBuilder.Entity<SubCategory>();
             modelBuilder.Entity<Item>();
             modelBuilder.Entity<SaleItem>();
+
             //modelBuilder.Entity<AccessLevel>();
-            //modelBuilder.Entity<SpecialPermission>();
-            //modelBuilder.Entity<RoleSpecialPermissions>();
+            modelBuilder.Entity<SpecialPermission>();
+            modelBuilder.Entity<RoleSpecialPermission>();
             base.OnModelCreating(modelBuilder);
         }
     }

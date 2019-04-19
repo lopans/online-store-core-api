@@ -40,8 +40,10 @@ namespace WebApi
             services.AddTransient<ICorsPolicyService, ICorsPolicyProvider>();
             services.AddTransient<ICheckAccessService, CheckAccessService>();
             services.AddTransient<ISystemUnitOfWork, SystemUnitOfWork>();
+            //services.AddScoped<DbContext, DataContext>();
 
             services.AddDefaultIdentity<User>()
+                .AddRoles<Role>()
                 .AddEntityFrameworkStores<DataContext>();
 
             services.Configure<IdentityOptions>(opt => {
