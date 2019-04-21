@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Base.Services;
+﻿using Base.Services;
+using Common;
 using Data;
 using Data.Entities;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -15,8 +13,8 @@ namespace WebApi.Controllers
     public class ValuesController : CoreControllerBase
     {
         private readonly IBaseService<TestObject> _service;
-        public ValuesController(IBaseService<TestObject> service, DataContext context)
-            :base(context)
+        public ValuesController(IBaseService<TestObject> service, DataContext context, IApplicationContext appContext)
+            :base(context, appContext)
         {
             _service = service;
         }

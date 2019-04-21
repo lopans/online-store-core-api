@@ -1,17 +1,14 @@
-﻿using Base.DAL;
-using Base.Identity.Entities;
-using Base.Identity.Entities.Static;
+﻿using Base.Identity.Entities;
+using Common.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace Data
 {
     public class Initializer
     {
-        private IApplicationBuilder _app;
         public Initializer()
         {
         }
@@ -19,6 +16,15 @@ namespace Data
         {
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
+                var _roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
+                if (!_roleManager.Roles.Any())
+                {
+                    await _roleManager.CreateAsync(new Role(Roles.Admin));
+                    await _roleManager.CreateAsync(new Role(Roles.Editor));
+                    await _roleManager.CreateAsync(new Role(Roles.Byuer));
+                    await _roleManager.CreateAsync(new Role(Roles.Public));
+                }
+
                 var _userManager = scope.ServiceProvider.GetService<UserManager<User>>();
                 var admin = await _userManager.FindByNameAsync("admin");
                 if (admin == null)
@@ -33,25 +39,12 @@ namespace Data
                     await _userManager.AddToRoleAsync(admin, Roles.Admin);
                 }
 
-                var _roleManager = scope.ServiceProvider.GetService<RoleManager<Role>>();
-                if (!_roleManager.Roles.Any())
-                {
-                    await _roleManager.CreateAsync(new Role(Roles.Admin));
-                    await _roleManager.CreateAsync(new Role(Roles.Editor));
-                    await _roleManager.CreateAsync(new Role(Roles.Byuer));
-                    await _roleManager.CreateAsync(new Role(Roles.Public));
-                }
 
-                var context = scope.ServiceProvider.GetService<DataContext>();
-                using(var uofw = new UnitOfWork(context))
-                {
-                    var specialPermissionsRepo = uofw.GetRepository<SpecialPermission>();
-                    if(!specialPermissionsRepo.All().Any())
-                        await specialPermissionsRepo
-                            .CreateAsync(new SpecialPermission() { Title = "Set permissions" });
-
-                    await uofw.SaveChangesAsync();
-                }
+                //var context = scope.ServiceProvider.GetService<DataContext>();
+                //using(var uofw = new UnitOfWork(context))
+                //{
+                    
+                //}
             }
         }
     }

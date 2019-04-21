@@ -1,6 +1,7 @@
 ﻿using Base.Identity.Entities;
-using Base.Identity.Entities.Static;
 using Base.Utils;
+using Common;
+using Common.Identity;
 using Data;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
@@ -19,8 +20,8 @@ namespace WebApi.Controllers
     public class AccountController : CoreControllerBase
     {
         private readonly UserManager<User> _userManager;
-        public AccountController(DataContext context, UserManager<User> userManager)
-            :base(context)
+        public AccountController(DataContext context, IApplicationContext appContext, UserManager<User> userManager)
+            :base(context, appContext)
         {
             _userManager = userManager;
         }

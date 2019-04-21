@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Base.Identity.Entities
 {
-    public class Role: IdentityRole
+    public class Role: IdentityRole<int>
     {
         public Role() : base()
         {
@@ -14,6 +12,5 @@ namespace Base.Identity.Entities
         {
 
         }
-        public List<RoleSpecialPermission> SpecialPermissions { get; set; } = new List<RoleSpecialPermission>();
     }
 }

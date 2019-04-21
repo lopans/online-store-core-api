@@ -1,19 +1,22 @@
 ﻿using Base.DAL;
+using Common;
 using Data;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Collections;
+using System.Threading.Tasks;
 namespace WebApi.Controllers
 {
     [EnableCors("any")]
     public class CoreControllerBase: ControllerBase
     {
-        public CoreControllerBase(DataContext context)
-        {
-
-        }
+        private readonly IApplicationContext _appContext;
         private IUnitOfWork uofw;
         private ISystemUnitOfWork suofw;
+        public CoreControllerBase(DataContext context, IApplicationContext appContext)
+        {
+            _appContext = appContext;
+        }
         public IUnitOfWork CreateUnitOfWork
         {
             get
@@ -33,6 +36,19 @@ namespace WebApi.Controllers
                 if (suofw == null) suofw = new SystemUnitOfWork(context);
                 return suofw;
             }
+        }
+
+        public async Task<ActionResult> WrapListViewResult(IEnumerable data)
+        {
+            var canWrite = _appContext.IsAdmin() || _appContext.IsEditor();
+            return Ok(new
+            {
+                Data = data,
+                Create = canWrite,
+                Update = canWrite,
+                Delete = canWrite
+
+            });
         }
     }
 }

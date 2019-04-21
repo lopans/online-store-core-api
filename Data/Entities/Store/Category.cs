@@ -12,7 +12,5 @@ namespace Data.Entities.Store
         public string Description { get; set; }
         public virtual FileData Image { get; set; }
         public int? ImageID { get; set; }
-        [MaxLength(255)]
-        public string Color { get; set; }
     }
 }

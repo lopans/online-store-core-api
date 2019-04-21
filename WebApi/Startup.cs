@@ -3,12 +3,15 @@ using Base.DAL;
 using Base.Identity.Entities;
 using Base.Identity.IndetityServer;
 using Base.Services;
+using Common;
 using Data;
+using IdentityModel;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +43,9 @@ namespace WebApi
             services.AddTransient<ICorsPolicyService, ICorsPolicyProvider>();
             services.AddTransient<ICheckAccessService, CheckAccessService>();
             services.AddTransient<ISystemUnitOfWork, SystemUnitOfWork>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IApplicationContext, AppContext>();
             //services.AddScoped<DbContext, DataContext>();
 
             services.AddDefaultIdentity<User>()
@@ -69,6 +75,7 @@ namespace WebApi
             }).AddIdentityServerAuthentication(o =>
             {
                 o.ApiName = "api1";
+                o.RoleClaimType = JwtClaimTypes.Role;
                 o.Authority = "http://localhost:8200";
                 o.RequireHttpsMetadata = false;
             });

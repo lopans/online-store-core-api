@@ -12,7 +12,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Base\Base.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Identity\Base.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
