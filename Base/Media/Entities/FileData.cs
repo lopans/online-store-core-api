@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Base.DAL
 {
-    public class FileData : BaseEntity
+    public class FileData : BaseEntity, IClientEntity
     {
         public Guid FileID { get; set; }
         public string FileName { get; set; }

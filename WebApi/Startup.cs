@@ -3,6 +3,7 @@ using Base.DAL;
 using Base.Identity.Entities;
 using Base.Identity.IndetityServer;
 using Base.Services;
+using Base.Services.Media;
 using Common;
 using Data;
 using IdentityModel;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Serialization;
 
 namespace WebApi
 {
@@ -46,6 +48,8 @@ namespace WebApi
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IApplicationContext, AppContext>();
+
+            services.AddTransient<IFileSystemService, FileSystemService>();
             //services.AddScoped<DbContext, DataContext>();
 
             services.AddDefaultIdentity<User>()
@@ -58,7 +62,8 @@ namespace WebApi
                 opt.Password.RequireUppercase = false;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest)
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             services.AddMvcCore()
                 .AddCors(opts => opts.AddPolicy("any", opt => opt
                     .AllowAnyOrigin()
