@@ -112,7 +112,7 @@ namespace Base.Services
 
             if (obj.ID == 0) return await CreateAsync(unitOfWork, obj);
             unitOfWork.GetRepository<T>().Update(obj);
-            unitOfWork.SaveChanges();
+            await unitOfWork.SaveChangesAsync();
             return obj;
         }
 

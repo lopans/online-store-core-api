@@ -12,23 +12,23 @@ using WebApi.Models.Store;
 
 namespace WebApi.Controllers.Store
 {
-    [Route("api/categories")]
+    [Route("api/subcategories")]
     [ApiController]
-    public class CategoriesController : CoreControllerBase
+    public class SubCategoriesController : CoreControllerBase
     {
-        private readonly IBaseService<Category> _categoryService;
-        public CategoriesController(DataContext context, IApplicationContext appContext,
-            IBaseService<Category> categoryService) : base(context, appContext)
+        private readonly IBaseService<SubCategory> _subCategoryService;
+        public SubCategoriesController(DataContext context, IApplicationContext appContext,
+            IBaseService<SubCategory> subCategoryService) : base(context, appContext)
         {
-            _categoryService = categoryService;
+            _subCategoryService = subCategoryService;
         }
         [HttpGet]
         [Route("getAll")]
-        public async Task<ActionResult> GetAll([FromQuery]FilterModel filter)
+        public async Task<ActionResult> GetAll([FromQuery]FilterModel filter, int categoryID)
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var all = _categoryService.GetAll(uofw);
+                var all = _subCategoryService.GetAll(uofw).Where(x => x.CategoryID == categoryID);
                 if (!string.IsNullOrEmpty(filter.search))
                     all = all.Where(x => x.Title.Contains(filter.search) || 
                     x.Description.Contains(filter.search));
@@ -53,7 +53,7 @@ namespace WebApi.Controllers.Store
             using (var uofw = CreateUnitOfWork)
             {
 
-                var data = await _categoryService.GetAll(uofw)
+                var data = await _subCategoryService.GetAll(uofw)
                     .Where(x => x.ID == id)
                     .Select(x => new
                     {
@@ -73,13 +73,14 @@ namespace WebApi.Controllers.Store
         [HttpPost]
         [Authorize]
         [Route("create")]
-        public async Task<ActionResult> Create(CreateModel model)
+        public async Task<ActionResult> Create(SubCategory model)
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var ret = await _categoryService.CreateAsync(uofw,
-                    new Category()
+                var ret = await _subCategoryService.CreateAsync(uofw,
+                    new SubCategory()
                     {
+                        CategoryID = model.CategoryID,
                         Description = model.Description,
                         Title = model.Title,
                         ImageID = model.ImageID
@@ -92,16 +93,17 @@ namespace WebApi.Controllers.Store
         [HttpPost]
         [Authorize]
         [Route("update")]
-        public async Task<ActionResult> Update(Category model)
+        public async Task<ActionResult> Update(SubCategory model)
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var imgID = await _categoryService.GetAll(uofw)
+                var imgID = await _subCategoryService.GetAll(uofw)
                     .Where(x => x.ID == model.ID)
                     .Select(x => x.ImageID).SingleAsync();
 
-                var ret = await _categoryService.Update(uofw, new Category()
+                var ret = await _subCategoryService.Update(uofw, new SubCategory()
                 {
+                    CategoryID = model.CategoryID,
                     Description = model.Description,
                     Title = model.Title,
                     ID = model.ID,
@@ -119,7 +121,7 @@ namespace WebApi.Controllers.Store
         {
             using (var uofw = CreateUnitOfWork)
             {
-                _categoryService.Delete(uofw, id);
+                _subCategoryService.Delete(uofw, id);
                 return Ok();
             }
         }
