@@ -13,5 +13,8 @@ namespace Data.Entities.Store
         public int? CategoryID { get; set; }
         public Category Category { get; set; }
         public List<Item> Items { get; set; }
+        public string Link { get; set; }
+        public string Icon { get; set; }
+
     }
 }

@@ -13,5 +13,8 @@ namespace Data.Entities.Store
         public double Price { get; set; }
         public int SubCategoryID { get; set; }
         public SubCategory SubCategory { get; set; }
+        public int? ImageID { get; set; }
+        public FileData Image { get; set; }
+        public string Link { get; set; }
     }
 }

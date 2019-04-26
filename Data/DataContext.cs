@@ -29,10 +29,15 @@ namespace Data
             modelBuilder.Entity<TestObject>();
             //modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(p => new { p.UserId, p.RoleId });
 
-            modelBuilder.Entity<Category>();
+            modelBuilder.Entity<Category>()
+                .HasIndex(x => x.Link)
+                .IsUnique(true);
             modelBuilder.Entity<FileData>()
-                .HasIndex(x => x.FileID);
-            modelBuilder.Entity<SubCategory>();
+                .HasIndex(x => x.FileID)
+                .IsUnique(true);
+            modelBuilder.Entity<SubCategory>()
+                .HasIndex(x => x.Link)
+                .IsUnique(true);
             modelBuilder.Entity<Item>();
             modelBuilder.Entity<SaleItem>();
 

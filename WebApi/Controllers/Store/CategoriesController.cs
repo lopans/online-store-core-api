@@ -37,6 +37,8 @@ namespace WebApi.Controllers.Store
                 {
                     ID = x.ID,
                     Title = x.Title,
+                    x.Link,
+                    x.Icon,
                     ImageID = x.Image != null ? (Guid?)x.Image.FileID : null,
                     FileName = x.Image != null ? x.Image.FileName + x.Image.Extension : null,
                     x.Description,
@@ -48,18 +50,20 @@ namespace WebApi.Controllers.Store
 
         [HttpGet]
         [Route("get")]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult> Get(string link)
         {
             using (var uofw = CreateUnitOfWork)
             {
 
                 var data = await _categoryService.GetAll(uofw)
-                    .Where(x => x.ID == id)
+                    .Where(x => x.Link == link)
                     .Select(x => new
                     {
                         ID = x.ID,
                         Title = x.Title,
                         x.Description,
+                        x.Link,
+                        x.Icon,
                         ImageID = x.Image != null ? (Guid?)x.Image.FileID : null,
                         FileName = x.Image != null ? x.Image.FileName + x.Image.Extension : null,
                         x.RowVersion
@@ -82,6 +86,8 @@ namespace WebApi.Controllers.Store
                     {
                         Description = model.Description,
                         Title = model.Title,
+                        Icon = model.Icon,
+                        Link = model.Link,
                         ImageID = model.ImageID
                     });
 
@@ -104,7 +110,9 @@ namespace WebApi.Controllers.Store
                 {
                     Description = model.Description,
                     Title = model.Title,
+                    Icon = model.Icon,
                     ID = model.ID,
+                    Link = model.Link,
                     RowVersion = model.RowVersion,
                     ImageID = model.ImageID ?? imgID
                 });

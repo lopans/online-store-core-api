@@ -12,5 +12,7 @@ namespace Data.Entities.Store
         public string Description { get; set; }
         public virtual FileData Image { get; set; }
         public int? ImageID { get; set; }
+        public string Link { get; set; }
+        public string Icon { get; set; }
     }
 }

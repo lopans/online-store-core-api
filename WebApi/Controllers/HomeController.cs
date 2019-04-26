@@ -29,14 +29,17 @@ namespace WebApi.Controllers.Store
             using (var uofw = CreateUnitOfWork)
             {
                 var all = await _subCategoryService.GetAll(uofw)
-                    .GroupBy(x => new { x.Category.ID, x.Category.Title })
+                    .Include(x => x.Category)
+                    .GroupBy(x => new { x.Category.Link, x.Category.Title, x.Category.Icon })
                     .Select(x => new
                     {
-                        ID = x.Key.ID,
+                        Link = x.Key.Link,
                         Title = x.Key.Title,
+                        x.Key.Icon,
                         SubItems = x.Select(z => new
                         {
-                            z.ID,
+                            z.Link,
+                            z.Icon,
                             z.Title
                         })
                     }).ToListAsync();

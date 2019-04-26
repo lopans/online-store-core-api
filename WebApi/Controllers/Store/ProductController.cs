@@ -12,25 +12,25 @@ using WebApi.Models.Store;
 
 namespace WebApi.Controllers.Store
 {
-    [Route("api/subcategories")]
+    [Route("api/products")]
     [ApiController]
-    public class SubCategoriesController : CoreControllerBase
+    public class ProductController : CoreControllerBase
     {
-        private readonly IBaseService<SubCategory> _subCategoryService;
-        public SubCategoriesController(DataContext context, IApplicationContext appContext,
-            IBaseService<SubCategory> subCategoryService) : base(context, appContext)
+        private readonly IBaseService<Item> _productService;
+        public ProductController(DataContext context, IApplicationContext appContext,
+            IBaseService<Item> productService) : base(context, appContext)
         {
-            _subCategoryService = subCategoryService;
+            _productService = productService;
         }
         [HttpGet]
         [Route("getAll")]
-        public async Task<ActionResult> GetAll([FromQuery]FilterModel filter, string categoryLink)
+        public async Task<ActionResult> GetAll([FromQuery]FilterModel filter, string subCategoryLink)
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var all = _subCategoryService.GetAll(uofw)
-                    .Include(x => x.Category.Link)
-                    .Where(x => x.Category.Link == categoryLink);
+                var all = _productService.GetAll(uofw)
+                    .Include(x => x.SubCategory.Link)
+                    .Where(x => x.SubCategory.Link == subCategoryLink);
                 if (!string.IsNullOrEmpty(filter.search))
                     all = all.Where(x => x.Title.Contains(filter.search) || 
                     x.Description.Contains(filter.search));
@@ -39,8 +39,8 @@ namespace WebApi.Controllers.Store
                 {
                     ID = x.ID,
                     Title = x.Title,
-                    Link = x.Link,
-                    x.Icon,
+                    x.Link,
+                    x.Price,
                     ImageID = x.Image != null ? (Guid?)x.Image.FileID : null,
                     FileName = x.Image != null ? x.Image.FileName + x.Image.Extension : null,
                     x.Description,
@@ -57,14 +57,15 @@ namespace WebApi.Controllers.Store
             using (var uofw = CreateUnitOfWork)
             {
 
-                var data = await _subCategoryService.GetAll(uofw)
+                var data = await _productService.GetAll(uofw)
                     .Where(x => x.Link == link)
                     .Select(x => new
                     {
                         ID = x.ID,
                         Title = x.Title,
                         x.Description,
-                        x.Icon,
+                        x.Link,
+                        x.Price,
                         ImageID = x.Image != null ? (Guid?)x.Image.FileID : null,
                         FileName = x.Image != null ? x.Image.FileName + x.Image.Extension : null,
                         x.RowVersion
@@ -78,18 +79,18 @@ namespace WebApi.Controllers.Store
         [HttpPost]
         [Authorize]
         [Route("create")]
-        public async Task<ActionResult> Create(SubCategory model)
+        public async Task<ActionResult> Create(Item model)
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var ret = await _subCategoryService.CreateAsync(uofw,
-                    new SubCategory()
+                var ret = await _productService.CreateAsync(uofw,
+                    new Item()
                     {
-                        CategoryID = model.CategoryID,
+                        SubCategoryID = model.SubCategoryID,
                         Description = model.Description,
                         Title = model.Title,
-                        Icon = model.Icon,
                         Link = model.Link,
+                        Price = model.Price,
                         ImageID = model.ImageID
                     });
 
@@ -100,21 +101,20 @@ namespace WebApi.Controllers.Store
         [HttpPost]
         [Authorize]
         [Route("update")]
-        public async Task<ActionResult> Update(SubCategory model)
+        public async Task<ActionResult> Update(Item model)
         {
             using (var uofw = CreateUnitOfWork)
             {
-                var imgID = await _subCategoryService.GetAll(uofw)
+                var imgID = await _productService.GetAll(uofw)
                     .Where(x => x.ID == model.ID)
                     .Select(x => x.ImageID).SingleAsync();
 
-                var ret = await _subCategoryService.Update(uofw, new SubCategory()
+                var ret = await _productService.Update(uofw, new Item()
                 {
-                    CategoryID = model.CategoryID,
+                    SubCategoryID = model.SubCategoryID,
                     Description = model.Description,
                     Title = model.Title,
-                    Link = model.Link,
-                    Icon = model.Icon,
+                    Price = model.Price,
                     ID = model.ID,
                     RowVersion = model.RowVersion,
                     ImageID = model.ImageID ?? imgID
@@ -130,7 +130,7 @@ namespace WebApi.Controllers.Store
         {
             using (var uofw = CreateUnitOfWork)
             {
-                _subCategoryService.Delete(uofw, id);
+                _productService.Delete(uofw, id);
                 return Ok();
             }
         }
